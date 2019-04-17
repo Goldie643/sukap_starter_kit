@@ -7,7 +7,6 @@ n_in=$(grep -c "begin" $1)
 begin_line=$(awk '/begin/{ print NR; exit }' $1)
 end_line=$(awk '/end/{ print NR; exit }' $1)
 n_lines_per_vtx=$(( $end_line - $begin_line + 1 ))
-n_digits=`echo "${#n_files}"`
 
 echo "Factors of N events in file (up to ${max_n_files}):"
 
@@ -24,6 +23,7 @@ read n_files
 
 # N events in each file
 n_per_file=$(( n_in / n_files ))
+n_digits=`echo "${#n_files}"`
 
 echo "Events per file: ${n_per_file}"
 
