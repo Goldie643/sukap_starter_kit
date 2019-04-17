@@ -7,6 +7,7 @@ n_in=$(grep -c "begin" $1)
 begin_line=$(awk '/begin/{ print NR; exit }' $1)
 end_line=$(awk '/end/{ print NR; exit }' $1)
 n_lines_per_vtx=$(( $end_line - $begin_line + 1 ))
+n_digits=`echo "${#n_files}"`
 
 echo "Factors of N events in file (up to ${max_n_files}):"
 
@@ -31,7 +32,7 @@ out_prefix=${1%.nuance}
 for ((i=1; i <= $n_files; i++))
 do
     echo -ne "Processing file $i of $n_files"\\r
-    out_file=`printf "%03d" $i`
+    out_file=`printf "%0${n_digits}d" $i`
     out_file="${out_prefix}_${out_file}.nuance"
 
     # Setting the first and last line to pull from the file
