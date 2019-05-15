@@ -41,6 +41,7 @@ out = open(args.out_filename + ".nuance","w+")
 
 for i in range(args.n_events):
     out.write("begin \n")
+    out.write("info 2 949000 0.0000E+00 \n")
 
     # Array of energies which sum to 8
     energies = (np.random.dirichlet(np.ones(args.gamma_n),size=1)*args.gamma_esum)[0]
@@ -56,13 +57,13 @@ for i in range(args.n_events):
     out.write("vertex %f %f %f 0\n" % (x,y,z))
 
     for energy in energies:
-        px = random.uniform(0,1)
-        py = random.uniform(0,1)
-        pz = random.uniform(0,1)
+        vx = random.uniform(-1,1)
+        vy = random.uniform(-1,1)
+        vz = random.uniform(-1,1)
         
-        px = px/sqrt(px*px+py*py+pz*pz)
-        py = py/sqrt(px*px+py*py+pz*pz)
-        pz = pz/sqrt(px*px+py*py+pz*pz)
+        px = vx/math.sqrt(vx*vx+vy*vy+vz*vz)
+        py = vy/math.sqrt(vx*vx+vy*vy+vz*vz)
+        pz = vz/math.sqrt(vx*vx+vy*vy+vz*vz)
 
         # 22 is pdg code for gamma
         out.write("track %i %f %f %f %f 0\n" % (22, energy, px, py, pz))

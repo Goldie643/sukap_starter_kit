@@ -65,7 +65,7 @@ n_events = 0
 scale = 20000.0 #Scales height of each bin so each has >=1 event TODO: calculate
 correction = 0
 if(args.kin_corr):
-    correction = 0.511 + (939.565413358-938.27204621) #Kinematic correction
+    correction = (939.565413358-938.27204621) #Kinematic correction
     print("CORRECTING FOR KINEMATICS IN IBD:")
     print(correction)
 
@@ -75,6 +75,7 @@ if(args.kin_corr):
 if(args.p_e != -1):
     for i in range(args.n_events):
         out.write("begin \n")
+        out.write("info 2 949000 0.0000E+00\n")
         # out.write("nuance 3 \n")
 
         theta = random.uniform(0,2*math.pi)
@@ -85,17 +86,17 @@ if(args.p_e != -1):
         y = (sk_r-1)*math.sin(theta)
         z = random.uniform(-sk_hh,sk_hh)
 
-        px = random.uniform(0,1)
-        py = random.uniform(0,1)
-        pz = random.uniform(0,1)
+        vx = random.uniform(-1,1)
+        vy = random.uniform(-1,1)
+        vz = random.uniform(-1,1)
 
-        px = px/(px+py+pz)
-        py = py/(px+py+pz)
-        pz = pz/(px+py+pz)
+        px = vx/math.sqrt(vx*vx+vy*vy+vz*vz)
+        py = vy/math.sqrt(vx*vx+vy*vy+vz*vz)
+        pz = vz/math.sqrt(vx*vx+vy*vy+vz*vz)
 
         out.write("vertex %f %f %f 0\n" % (x,y,z))
         out.write("track %i %f %f %f %f 0\n" % (args.p_id, args.p_e, px, py, pz))
-        out.write("end")
+        out.write("end\n")
 elif(args.linear):
     #Cycle through each energy bin
     for row in e_reader:
@@ -104,6 +105,7 @@ elif(args.linear):
         for i in range(int(math.ceil(float(row[1])*scale))):
             n_events += 1
             out.write("begin\n")
+        out.write("info 2 949000 0.0000E+00\n")
 
             theta = random.uniform(0,2*math.pi)
 
@@ -111,13 +113,13 @@ elif(args.linear):
             y = (sk_r-1)*math.sin(theta)
             z = random.uniform(-sk_hh,sk_hh)
 
-            px = random.uniform(0,1)
-            py = random.uniform(0,1)
-            pz = random.uniform(0,1)
+            vx = random.uniform(-1,1)
+            vy = random.uniform(-1,1)
+            vz = random.uniform(-1,1)
 
-            px = px/math.sqrt(px*px+py*py+pz*pz)
-            py = py/math.sqrt(px*px+py*py+pz*pz)
-            pz = pz/math.sqrt(px*px+py*py+pz*pz)
+            px = vx/math.sqrt(vx*vx+vy*vy+vz*vz)
+            py = vy/math.sqrt(vx*vx+vy*vy+vz*vz)
+            pz = vz/math.sqrt(vx*vx+vy*vy+vz*vz)
 
             out.write("vertex %f %f %f 0\n" % (x,y,z))
             out.write("track %i %s %f %f %f 0\n" % (args.p_id, float(row[0])-correction, px, py, pz))
@@ -146,6 +148,7 @@ else:
 
     for rv in rvs:
         out.write("begin \n")
+        out.write("info 2 949000 0.0000E+00\n")
         # out.write("nuance 3 \n")
 
         theta = random.uniform(0,2*math.pi)
@@ -156,13 +159,13 @@ else:
         y = (sk_r-1)*math.sin(theta)
         z = random.uniform(-sk_hh,sk_hh)
 
-        px = random.uniform(0,1)
-        py = random.uniform(0,1)
-        pz = random.uniform(0,1)
+        vx = random.uniform(-1,1)
+        vy = random.uniform(-1,1)
+        vz = random.uniform(-1,1)
 
-        px = px/(px+py+pz)
-        py = py/(px+py+pz)
-        pz = pz/(px+py+pz)
+        px = vx/math.sqrt(vx*vx+vy*vy+vz*vz)
+        py = vy/math.sqrt(vx*vx+vy*vy+vz*vz)
+        pz = vz/math.sqrt(vx*vx+vy*vy+vz*vz)
 
         out.write("vertex %f %f %f 0\n" % (x,y,z))
         out.write("track %i %f %f %f %f 0\n" % (args.p_id, file_energies[rv], px, py, pz))
