@@ -10,7 +10,7 @@ do
     echo -n $i, >> $file
 
     # Preamble (n chars up to useful info)
-    pre_len=12
+    pre_len=14
 
     run_mode_full=`summary -r $i| grep "Run Mode"`
     run_mode_full=`echo $run_mode_full | cut -c ${pre_len}-`
