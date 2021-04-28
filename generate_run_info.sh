@@ -7,10 +7,11 @@ echo "run_num,run_mode,run_mode_num,start_time,end_time" > $file
 
 for (( i = $min_run; i <= $max_run; i++ ))
 do
+    echo "Processing $i (max=${max_run})..."
     echo -n $i, >> $file
 
     # Preamble (n chars up to useful info)
-    pre_len=14
+    pre_len=12
 
     run_mode_full=`summary -r $i| grep "Run Mode"`
     run_mode_full=`echo $run_mode_full | cut -c ${pre_len}-`
@@ -18,6 +19,9 @@ do
     echo -n $run_mode, >> $file
     run_mode_num=`echo $run_mode_full | cut -c 1`
     echo -n $run_mode_num, >> $file
+
+    # Changes
+    pre_len=14
 
     start_time=`summary -r $i| grep "Start time"`
     start_time=`echo $start_time | cut -c ${pre_len}-`
