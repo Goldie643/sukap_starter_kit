@@ -34,8 +34,13 @@ do
     end_time=`summary -r $i| grep "End time"`
     end_time=`echo $end_time | cut -c ${pre_len}-`
     end_time=`echo $end_time | cut -d " " -f 2,3,5,4`
-    # Put in number format to pass to lowfitwit
-    # end_time=`date -d "$end_time" "+%Y-%m-%d"`
-    end_time=`date -d "$end_time" "+%Y-%m-%d %H:%M:%S"`
-    echo $end_time >> $file
+    if [[ -z "${end_time// }" ]]
+    then
+        echo N/A >> $file
+    else
+        # Put in number format to pass to lowfitwit
+        # end_time=`date -d "$end_time" "+%Y-%m-%d"`
+        end_time=`date -d "$end_time" "+%Y-%m-%d %H:%M:%S"`
+        echo $end_time >> $file
+    fi
 done

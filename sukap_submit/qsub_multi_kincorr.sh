@@ -25,10 +25,10 @@ mass=0.5109989461 # MeV (positron)
 # mass=0
 echo "Using particle mass of $mass"
 
-# echo "** CORRECTING FOR IBD KINEMATICS ** "
-# kin_corr=$(bc <<< "scale=10;(939.565413358-938.27204621)")
-# # kin_corr=0
-# e=$(bc <<< "scale=10;($e-$kin_corr)/1")
+echo "** CORRECTING FOR IBD KINEMATICS ** "
+kin_corr=$(bc <<< "scale=10;(939.565413358-938.27204621)")
+# kin_corr=0
+e=$(bc <<< "scale=10;($e-$kin_corr)/1")
 
 for i in $(seq 1 ${n_files})
 do
